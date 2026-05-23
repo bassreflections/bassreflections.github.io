@@ -1,11 +1,516 @@
----
-layout: archive
-title: "Latest Mixes and Updates"
-author_profile: true
----
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bass Reflections</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-{% for post in paginator.posts %}
-  {% include archive-single-main.html %}
-{% endfor %}
+    :root {
+      --bg:        #0a0a0f;
+      --surface:   #13131e;
+      --surface2:  #1c1c2e;
+      --border:    #2a2a40;
+      --text:      #e2e2ee;
+      --muted:     #7a7a9a;
+      --accent:    #7c4dff;
+      --accent2:   #00e5ff;
+      --kick:      #53fc18;
+      --twitch:    #9146ff;
+      --youtube:   #ff2020;
+      --soundcloud:#ff5500;
+      --mixcloud:  #6241c7;
+      --radio:     #00e5ff;
+    }
 
-{% include paginator.html %}
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: flex-end;
+      padding: 16px 28px;
+      background: linear-gradient(to bottom, rgba(10,10,15,0.95) 0%, transparent 100%);
+      backdrop-filter: blur(4px);
+    }
+
+    nav a {
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.9rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 8px 18px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    nav a:hover {
+      border-color: var(--accent);
+      color: var(--accent2);
+    }
+
+    /* ── Main layout ── */
+    main {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0px 24px 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 56px;
+    }
+
+    /* ── Logo ── */
+    .logo-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      /*padding-top: 20px;*/
+    }
+
+    .logo-wrap img {
+      max-width: 340px;
+      width: 100%;
+      height: auto;
+      filter: drop-shadow(0 0 24px rgba(124, 77, 255, 0.4));
+    }
+
+    .logo-placeholder {
+      display: none;
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── Stream embed ── */
+    .stream-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .stream-label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--kick);
+    }
+
+    .live-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--kick);
+      box-shadow: 0 0 8px var(--kick);
+      animation: pulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: 0.4; transform: scale(0.8); }
+    }
+
+    .stream-embed-wrap {
+      width: 100%;
+      max-width: 900px;
+      aspect-ratio: 16 / 9;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 0 40px rgba(83, 252, 24, 0.08), 0 4px 32px rgba(0,0,0,0.6);
+      background: var(--surface);
+    }
+
+    .stream-embed-wrap iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    /* ── Platform grid ── */
+    .platforms-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .section-heading {
+      font-size: 0.78rem;
+      font-weight: 600;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .platform-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      width: 100%;
+    }
+
+    @media (max-width: 720px) {
+      .platform-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 460px) {
+      .platform-grid { grid-template-columns: 1fr; }
+    }
+
+    .platform-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      text-decoration: none;
+      color: var(--text);
+      transition: transform 0.18s, border-color 0.18s, box-shadow 0.18s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .platform-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: var(--card-color, var(--accent));
+      opacity: 0;
+      transition: opacity 0.18s;
+      pointer-events: none;
+    }
+
+    .platform-card:hover { transform: translateY(-3px); }
+    .platform-card:hover::before { opacity: 0.05; }
+    .platform-card:hover { border-color: var(--card-color, var(--accent)); box-shadow: 0 0 20px rgba(0,0,0,0.5); }
+
+    .card-icon {
+      width: 40px; height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--card-color, var(--accent));
+      flex-shrink: 0;
+    }
+
+    .card-icon svg { width: 22px; height: 22px; fill: #fff; }
+
+    .card-body { display: flex; flex-direction: column; gap: 4px; }
+
+    .card-name {
+      font-size: 0.88rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      color: var(--text);
+    }
+
+    .card-desc {
+      font-size: 0.78rem;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .card-url {
+      font-size: 0.7rem;
+      color: var(--card-color, var(--accent));
+      margin-top: auto;
+      word-break: break-all;
+    }
+
+    /* ── Modal ── */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(6px);
+      z-index: 200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.22s;
+    }
+
+    .modal-backdrop.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .modal {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 40px 36px;
+      max-width: 620px;
+      width: 100%;
+      position: relative;
+      transform: translateY(20px);
+      transition: transform 0.22s;
+      box-shadow: 0 24px 80px rgba(0,0,0,0.7);
+    }
+
+    .modal-backdrop.open .modal { transform: translateY(0); }
+
+    .modal-close {
+      position: absolute;
+      top: 14px; right: 18px;
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 1.6rem;
+      cursor: pointer;
+      line-height: 1;
+      transition: color 0.15s;
+      padding: 4px 8px;
+    }
+
+    .modal-close:hover { color: var(--text); }
+
+    .modal h2 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      margin-bottom: 20px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .modal p {
+      color: var(--muted);
+      line-height: 1.75;
+      font-size: 0.95rem;
+      margin-bottom: 14px;
+    }
+
+    .modal p:last-child { margin-bottom: 0; }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 24px;
+      color: var(--muted);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Subtle background grid ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(124,77,255,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(124,77,255,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    main, nav, footer { position: relative; z-index: 1; }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <a href="#" id="about-link">About</a>
+  </nav>
+
+  <main>
+
+    <!-- Logo -->
+    <div class="logo-wrap">
+      <img src="logo.png" alt="Bass Reflections" id="site-logo">
+      <span class="logo-placeholder" id="logo-fallback">Bass Reflections</span>
+    </div>
+
+    <!-- Kick stream embed -->
+    <section class="stream-section">
+      <div class="stream-label">
+        <span class="live-dot"></span>
+        Live on Kick - 24/7 Audio + Visual
+      </div>
+      <div class="stream-embed-wrap">
+        <iframe
+          src="https://player.kick.com/bassreflections"
+          allowfullscreen="true"
+          scrolling="no"
+          allow="autoplay; fullscreen">
+        </iframe>
+      </div>
+    </section>
+
+    <!-- Platform grid -->
+    <section class="platforms-section">
+      <p class="section-heading">Find us everywhere</p>
+      <div class="platform-grid">
+
+        <!-- Radio -->
+        <a class="platform-card" href="https://radio.bassreflections.com" target="_blank" rel="noopener"
+           style="--card-color: var(--radio)">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24"><path d="M3.24 6.15C2.51 6.43 2 7.17 2 8v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2H8.3l8.26-3.34L15.88 1zm8.76 8.85a2 2 0 1 1-2 2 2 2 0 0 1 2-2zM19 10h2v2h-2z"/></svg>
+          </div>
+          <div class="card-body">
+            <span class="card-name">Bass Reflections Radio</span>
+            <span class="card-desc">24/7 Audio Only - tune in anytime for a continuous stream of music</span>
+          </div>
+          <span class="card-url">radio.bassreflections.com</span>
+        </a>
+
+        <!-- Kick -->
+        <a class="platform-card" href="https://kick.com/bassreflections" target="_blank" rel="noopener"
+           style="--card-color: var(--kick)">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24"><path d="M4 2h4v8l6-8h4.5L12 10l6.5 12H14l-4-8-2 2.5V22H4z"/></svg>
+          </div>
+          <div class="card-body">
+            <span class="card-name">Kick</span>
+            <span class="card-desc">24/7 Audio + Visual - live reactive music visuals around the clock</span>
+          </div>
+          <span class="card-url">kick.com/bassreflections</span>
+        </a>
+
+        <!-- Twitch -->
+        <a class="platform-card" href="https://www.twitch.tv/bassreflections" target="_blank" rel="noopener"
+           style="--card-color: var(--twitch)">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24"><path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z"/></svg>
+          </div>
+          <div class="card-body">
+            <span class="card-name">Twitch</span>
+            <span class="card-desc">Live DJ Shows Only - catch scheduled live sets and special events</span>
+          </div>
+          <span class="card-url">twitch.tv/bassreflections</span>
+        </a>
+
+        <!-- YouTube -->
+        <a class="platform-card" href="https://www.youtube.com/@BassReflections" target="_blank" rel="noopener"
+           style="--card-color: var(--youtube)">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </div>
+          <div class="card-body">
+            <span class="card-name">YouTube</span>
+            <span class="card-desc">Live DJ Shows Only - live streams and VOD replays of past shows</span>
+          </div>
+          <span class="card-url">youtube.com/@BassReflections</span>
+        </a>
+
+        <!-- SoundCloud -->
+        <a class="platform-card" href="https://soundcloud.com/bassreflections" target="_blank" rel="noopener"
+           style="--card-color: var(--soundcloud)">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24"><path d="M1.175 12.225c-.015 0-.024.006-.034.018l-.021.093.021.09c.01.012.019.018.034.018.014 0 .023-.006.033-.018l.023-.09-.023-.093c-.01-.012-.019-.018-.033-.018zm-.309.15c-.02 0-.035.008-.047.024L.796 12.5l.023.1c.012.018.027.026.047.026.019 0 .034-.008.046-.024l.024-.102-.024-.1c-.012-.015-.027-.024-.046-.024zM.513 12.6c-.027 0-.047.012-.06.035L.43 12.5l.023.135c.013.023.033.035.06.035.026 0 .046-.012.059-.035L.595 12.5l-.023-.135c-.013-.023-.033-.035-.059-.035zm-.257-.213c-.031 0-.055.015-.07.043L.163 12.5l.023.17c.015.028.039.043.07.043.03 0 .054-.015.069-.043L.348 12.5l-.023-.17c-.015-.028-.039-.043-.069-.043zM24 10.204c0-2.11-1.71-3.822-3.822-3.822a3.8 3.8 0 0 0-1.573.337C18.143 4.26 15.9 2.25 13.2 2.25c-.9 0-1.757.249-2.484.679-.258.163-.324.338-.33.492v9.039c.006.17.12.31.282.348l10.97.006C23.03 12.814 24 11.614 24 10.204z"/></svg>
+          </div>
+          <div class="card-body">
+            <span class="card-name">SoundCloud</span>
+            <span class="card-desc">Studio Mixes &amp; Archives - recorded sets available anytime on demand</span>
+          </div>
+          <span class="card-url">soundcloud.com/bassreflections</span>
+        </a>
+
+        <!-- Mixcloud -->
+        <a class="platform-card" href="https://www.mixcloud.com/bassreflections/" target="_blank" rel="noopener"
+           style="--card-color: var(--mixcloud)">
+          <div class="card-icon">
+            <svg viewBox="0 0 24 24"><path d="M11.6 7.718C9.7 7.718 8.1 9 7.6 10.8c-.5-.6-1.2-1-2.1-1-1.5 0-2.7 1.2-2.7 2.7s1.2 2.7 2.7 2.7h6.1c1.8 0 3.3-1.5 3.3-3.3s-1.5-2.876-3.3-3.176zm6.7.882a5.8 5.8 0 0 0-1.5.2 5.4 5.4 0 0 1 .9 3c0 .3 0 .6-.1.9 1.5.1 2.8 1.4 2.8 2.9s-1.3 2.8-2.9 2.8h-.5v1.5h.5c2.4 0 4.3-1.9 4.3-4.3 0-2.2-1.7-4.0-3.5-4.3v-.7z"/></svg>
+          </div>
+          <div class="card-body">
+            <span class="card-name">Mixcloud</span>
+            <span class="card-desc">Studio Mixes &amp; Archives - full-length mixes hosted for streaming</span>
+          </div>
+          <span class="card-url">mixcloud.com/bassreflections</span>
+        </a>
+
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    If you like the vibes we're putting out; bookmark us, check out our social platforms, and stay a while!
+  </footer>
+
+  <!-- About modal -->
+  <div class="modal-backdrop" id="modal-backdrop">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+      <button class="modal-close" id="modal-close" aria-label="Close">&times;</button>
+      <h2 id="modal-title">About Bass Reflections</h2>
+      <p>Your home for Bass Music.</p>
+      <p>We're passionate about the full spectrum of bass-driven electronic music, from the raw energy of 90s Florida Breaks and early 2000s NuSkool Breaks and Dubstep, through the driving energy of 2010s Electro House, all the way to modern Wave, Trap, Midtempo, and DNB, and everything in between.</p>
+      <p>This channel is always evolving. We're continuously building out new playlists and unique visuals, with live DJ mixes from Bass Reflections and guest sets from friends coming soon, all archived and in rotation on the channel.</p>
+      <p>If you know me as Sub Reflux, Sky Drone, Bass Reflex, or Bass Reflections from communities like Ravetrax, BreaksFM, iBreaks, AfterHoursDJs or NSBRadio; welcome back and thank you for sticking around through the years. Decades of passion for electronic music have led to this, and we're just getting started.</p>
+      <p>Our mission is simple: spread the joy of Bass Music by playing tracks we love.</p>
+      <p>Tune in. Turn it up. This is Bass Reflections.</p>
+    </div>
+  </div>
+
+  <script>
+    // Logo fallback
+    const logo = document.getElementById('site-logo');
+    const fallback = document.getElementById('logo-fallback');
+    logo.onerror = () => {
+      logo.style.display = 'none';
+      fallback.style.display = 'block';
+    };
+
+    // Modal
+    const backdrop  = document.getElementById('modal-backdrop');
+    const aboutLink = document.getElementById('about-link');
+    const closeBtn  = document.getElementById('modal-close');
+
+    function openModal() {
+      backdrop.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      closeBtn.focus();
+    }
+
+    function closeModal() {
+      backdrop.classList.remove('open');
+      document.body.style.overflow = '';
+      aboutLink.focus();
+    }
+
+    aboutLink.addEventListener('click', e => { e.preventDefault(); openModal(); });
+    closeBtn.addEventListener('click', closeModal);
+    backdrop.addEventListener('click', e => { if (e.target === backdrop) closeModal(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+  </script>
+
+</body>
+</html>
