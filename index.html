@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Bass Reflections</title>
+  <link rel="icon" href="favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -20,8 +23,8 @@
       --twitch:    #9146ff;
       --youtube:   #ff2020;
       --soundcloud:#ff5500;
-      --mixcloud:  #6241c7;
-      --radio:     #00e5ff;
+      --mixcloud:  #5000ff;
+      --ravetrax:  #c8c8d4;
     }
 
     html { scroll-behavior: smooth; }
@@ -224,6 +227,8 @@
     }
 
     .card-icon svg { width: 22px; height: 22px; fill: #fff; }
+    .card-icon:has(img) { background: #000; overflow: hidden; }
+    .card-icon img { width: 100%; height: 100%; display: block; }
 
     .card-body { display: flex; flex-direction: column; gap: 4px; }
 
@@ -395,24 +400,11 @@
       <p class="section-heading">Find us everywhere</p>
       <div class="platform-grid">
 
-        <!-- Radio -->
-        <a class="platform-card" href="https://radio.bassreflections.com" target="_blank" rel="noopener"
-           style="--card-color: var(--radio)">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24"><path d="M3.24 6.15C2.51 6.43 2 7.17 2 8v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2H8.3l8.26-3.34L15.88 1zm8.76 8.85a2 2 0 1 1-2 2 2 2 0 0 1 2-2zM19 10h2v2h-2z"/></svg>
-          </div>
-          <div class="card-body">
-            <span class="card-name">Bass Reflections Radio</span>
-            <span class="card-desc">24/7 Audio Only - tune in anytime for a continuous stream of music</span>
-          </div>
-          <span class="card-url">radio.bassreflections.com</span>
-        </a>
-
         <!-- Kick -->
         <a class="platform-card" href="https://kick.com/bassreflections" target="_blank" rel="noopener"
            style="--card-color: var(--kick)">
           <div class="card-icon">
-            <svg viewBox="0 0 24 24"><path d="M4 2h4v8l6-8h4.5L12 10l6.5 12H14l-4-8-2 2.5V22H4z"/></svg>
+            <img src="images/kick.png" alt="">
           </div>
           <div class="card-body">
             <span class="card-name">Kick</span>
@@ -434,6 +426,32 @@
           <span class="card-url">twitch.tv/bassreflections</span>
         </a>
 
+        <!-- SoundCloud -->
+        <a class="platform-card" href="https://soundcloud.com/bassreflections" target="_blank" rel="noopener"
+           style="--card-color: var(--soundcloud)">
+          <div class="card-icon" style="background: linear-gradient(#ff8000, #f83600)">
+            <svg viewBox="0 0 24 24" style="fill: #000"><g transform="translate(0 -.6)"><rect x="1.0" y="14.3" width=".8" height="3.2" rx=".4"/><rect x="2.3" y="13.2" width=".8" height="4.3" rx=".4"/><rect x="3.6" y="12.1" width=".8" height="5.4" rx=".4"/><rect x="4.9" y="11.1" width=".8" height="6.4" rx=".4"/><rect x="6.2" y="10.2" width=".8" height="7.3" rx=".4"/><rect x="7.5" y="9.4" width=".8" height="8.1" rx=".4"/><rect x="8.8" y="8.6" width=".8" height="8.9" rx=".4"/><path d="M11 17.5V8.6c.85-.5 1.85-.8 2.9-.8 2.9 0 5.25 2.2 5.5 5 .3-.1.65-.15 1-.15 1.45 0 2.6 1.2 2.6 2.4 0 1.45-1.15 2.45-2.6 2.45z"/></g></svg>
+          </div>
+          <div class="card-body">
+            <span class="card-name">SoundCloud</span>
+            <span class="card-desc">Studio Mixes &amp; Archives - recorded sets available anytime on demand</span>
+          </div>
+          <span class="card-url">soundcloud.com/bassreflections</span>
+        </a>
+
+        <!-- Mixcloud -->
+        <a class="platform-card" href="https://www.mixcloud.com/bassreflections/" target="_blank" rel="noopener"
+           style="--card-color: var(--mixcloud)">
+          <div class="card-icon">
+            <svg viewBox="0 0 64 64"><path d="M0 4h20l12 51L44 4h20v56H54V7L42 60H22L10 7v53H0z"/></svg>
+          </div>
+          <div class="card-body">
+            <span class="card-name">Mixcloud</span>
+            <span class="card-desc">Studio Mixes &amp; Archives - full length mixes hosted for streaming</span>
+          </div>
+          <span class="card-url">mixcloud.com/bassreflections</span>
+        </a>
+
         <!-- YouTube -->
         <a class="platform-card" href="https://www.youtube.com/@BassReflections" target="_blank" rel="noopener"
            style="--card-color: var(--youtube)">
@@ -447,30 +465,17 @@
           <span class="card-url">youtube.com/@BassReflections</span>
         </a>
 
-        <!-- SoundCloud -->
-        <a class="platform-card" href="https://soundcloud.com/bassreflections" target="_blank" rel="noopener"
-           style="--card-color: var(--soundcloud)">
+        <!-- Ravetrax -->
+        <a class="platform-card" href="https://ravetrax.com/listen.html" target="_blank" rel="noopener"
+           style="--card-color: var(--ravetrax)">
           <div class="card-icon">
-            <svg viewBox="0 0 24 24"><path d="M1.175 12.225c-.015 0-.024.006-.034.018l-.021.093.021.09c.01.012.019.018.034.018.014 0 .023-.006.033-.018l.023-.09-.023-.093c-.01-.012-.019-.018-.033-.018zm-.309.15c-.02 0-.035.008-.047.024L.796 12.5l.023.1c.012.018.027.026.047.026.019 0 .034-.008.046-.024l.024-.102-.024-.1c-.012-.015-.027-.024-.046-.024zM.513 12.6c-.027 0-.047.012-.06.035L.43 12.5l.023.135c.013.023.033.035.06.035.026 0 .046-.012.059-.035L.595 12.5l-.023-.135c-.013-.023-.033-.035-.059-.035zm-.257-.213c-.031 0-.055.015-.07.043L.163 12.5l.023.17c.015.028.039.043.07.043.03 0 .054-.015.069-.043L.348 12.5l-.023-.17c-.015-.028-.039-.043-.069-.043zM24 10.204c0-2.11-1.71-3.822-3.822-3.822a3.8 3.8 0 0 0-1.573.337C18.143 4.26 15.9 2.25 13.2 2.25c-.9 0-1.757.249-2.484.679-.258.163-.324.338-.33.492v9.039c.006.17.12.31.282.348l10.97.006C23.03 12.814 24 11.614 24 10.204z"/></svg>
+            <img src="images/ravetrax.png" alt="">
           </div>
           <div class="card-body">
-            <span class="card-name">SoundCloud</span>
-            <span class="card-desc">Studio Mixes &amp; Archives - recorded sets available anytime on demand</span>
+            <span class="card-name">RaveTrax</span>
+            <span class="card-desc">24/7 Radio Stream - press play in your browser or open the stream in your favorite player</span>
           </div>
-          <span class="card-url">soundcloud.com/bassreflections</span>
-        </a>
-
-        <!-- Mixcloud -->
-        <a class="platform-card" href="https://www.mixcloud.com/bassreflections/" target="_blank" rel="noopener"
-           style="--card-color: var(--mixcloud)">
-          <div class="card-icon">
-            <svg viewBox="0 0 24 24"><path d="M11.6 7.718C9.7 7.718 8.1 9 7.6 10.8c-.5-.6-1.2-1-2.1-1-1.5 0-2.7 1.2-2.7 2.7s1.2 2.7 2.7 2.7h6.1c1.8 0 3.3-1.5 3.3-3.3s-1.5-2.876-3.3-3.176zm6.7.882a5.8 5.8 0 0 0-1.5.2 5.4 5.4 0 0 1 .9 3c0 .3 0 .6-.1.9 1.5.1 2.8 1.4 2.8 2.9s-1.3 2.8-2.9 2.8h-.5v1.5h.5c2.4 0 4.3-1.9 4.3-4.3 0-2.2-1.7-4.0-3.5-4.3v-.7z"/></svg>
-          </div>
-          <div class="card-body">
-            <span class="card-name">Mixcloud</span>
-            <span class="card-desc">Studio Mixes &amp; Archives - full length mixes hosted for streaming</span>
-          </div>
-          <span class="card-url">mixcloud.com/bassreflections</span>
+          <span class="card-url">ravetrax.com/listen</span>
         </a>
 
       </div>
